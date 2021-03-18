@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Street View Containers</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script type="text/javascript" src="locations.js"></script>
+
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #street-view {
+            height: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="street-view"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_API_KEY&callback=initialize&libraries=&v=weekly"
+        async></script>
+</body>
+
+<script>
+    const randCoord = locations[Math.floor(Math.random() * locations.length)];
+    const split = randCoord.split(',');
+
+    let panorama;
+    let lati = Number(split[0]);
+    let longi = Number(split[1]);
+    console.log(lati)
+    function initialize() {
+        panorama = new google.maps.StreetViewPanorama(
+            document.getElementById("street-view"),
+            {
+                position: { lat: lati, lng: longi },
+                pov: { heading: 165, pitch: 0 },
+                zoom: 1,
+                addressControl: false,
+            }
+        );
+    }
+
+
+    const calculateDistance = () => {
+
+        const lat2 = 55.694530
+        const lon2 = 12.486865
+
+        const R = 6371e3; // metres
+        const φ1 = lati * Math.PI / 180; // φ, λ in radians
+        const φ2 = lat2 * Math.PI / 180;
+        const Δφ = (lat2 - lati) * Math.PI / 180;
+        const Δλ = (lon2 - longi) * Math.PI / 180;
+
+        const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const d = R * c; // in metres
+        return d
+    }
+    console.log(calculateDistance())
+</script>
+
+</html>
