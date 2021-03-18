@@ -1,15 +1,15 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <street-view />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import StreetView from './components/StreetView.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+
+    StreetView
   }
 }
 </script>
