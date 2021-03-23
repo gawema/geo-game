@@ -20,6 +20,7 @@ export default {
     window.checkAndAttachMapScript(this.createMap);
     window.addEventListener('load', () => {
         document.querySelector('[title="Open this area in Google Maps (opens a new window)"]').remove();
+        document.querySelector('[title="Report problems with Street View imagery to Google"]').remove();
     })
 
     
