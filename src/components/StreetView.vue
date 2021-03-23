@@ -16,28 +16,33 @@ export default {
     };
   },
   mounted() {
-    
+    const split = this.randCoord.split(',');
+    let lati = Number(split[0]);
+    let longi = Number(split[1]);
+    this.coords = { lat: lati, lng: longi }; 
     window.checkAndAttachMapScript(this.createMap);
     window.addEventListener('load', () => {
         document.querySelector('[title="Open this area in Google Maps (opens a new window)"]').remove();
+        var cheatElements = document.getElementsByClassName("gm-style-cc")
+        while(cheatElements.length > 0){
+          cheatElements[0].parentNode.removeChild(cheatElements[0]);
+        }
     })
 
     
   },
   methods: {
     createMap() {
-        const split = this.randCoord.split(',');
-        let lati = Number(split[0]);
-        let longi = Number(split[1]);
-        const fenway = { lat: lati, lng: longi };
+      // initialize a location in streetview
+
         const map = new window.google.maps.Map(document.getElementById("map"), {
-            center: fenway,
+            center: this.coords,
             zoom: 14,
         });
         const panorama = new window.google.maps.StreetViewPanorama(
             document.getElementById("pano"),
             {
-            position: fenway,
+            position: this.coords,
             pov: {
                 heading: 34,
                 pitch: 10,
@@ -49,6 +54,11 @@ export default {
             }
         );
       map.setStreetView(panorama);
+      this.checkCoords()
+    },
+    checkCoordDistance(){
+      // check coordinates of user selection on map, and compare to original coords
+         console.log(this.coords)
     },
   },
 };
