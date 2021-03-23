@@ -28,7 +28,7 @@
 
       window.mapApiInitialized = callback;
       let script = document.createElement('script');
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=_YOUR_KEY_HERE_&libraries=places,geometry&callback=mapApiInitialized';
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=<%= VUE_APP_GOOGLE_API_KEY %>&libraries=places,geometry&callback=mapApiInitialized';
       document.body.appendChild(script);
     }
   </script>
