@@ -18,6 +18,10 @@ export default {
   mounted() {
     
     window.checkAndAttachMapScript(this.createMap);
+    window.addEventListener('load', () => {
+        document.querySelector('[title="Open this area in Google Maps (opens a new window)"]').remove();
+    })
+
     
   },
   methods: {
@@ -40,6 +44,8 @@ export default {
             },
             zoom: 1,
             addressControl: false,
+            showRoadLabels: false,
+            fullscreenControl: false,
             }
         );
       map.setStreetView(panorama);
