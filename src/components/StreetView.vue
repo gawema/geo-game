@@ -1,5 +1,5 @@
 <template>
-  <div id="map"></div>
+  <div id="map" class="minimap-container"></div>
   <div id="pano"></div>
 </template>
 
@@ -63,12 +63,20 @@ export default {
   },
 };
 </script>
-<style lang="css">
-/* #map {
+<style scoped>
+.minimap-container {
   height: 400px;
   width: 400px;
-} */
+  position: absolute;
+  bottom: 0;
+  background-color: RED;
+  right: 0;
+  z-index: 1;
+  margin-right: 75px;
+  margin-bottom: 25px;
+}
 #pano {
+  z-index: 0;
   height: 100vh;
 }
 </style>
