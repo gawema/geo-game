@@ -35,26 +35,25 @@ export default {
     createMap() {
       // initialize a location in streetview
 
-        const map = new window.google.maps.Map(document.getElementById("map"), {
-            center: this.coords,
-            zoom: 14,
-        });
-        const panorama = new window.google.maps.StreetViewPanorama(
-            document.getElementById("pano"),
-            {
-            position: this.coords,
-            pov: {
-                heading: 34,
-                pitch: 10,
-            },
-            zoom: 1,
-            addressControl: false,
-            showRoadLabels: false,
-            fullscreenControl: false,
-            }
+        new window.google.maps.Map(document.getElementById("map"), {
+        center: new window.google.maps.LatLng(0, 0),
+        zoom: 1,
+      });
+      new window.google.maps.StreetViewPanorama(
+        document.getElementById("pano"),
+        {
+          position: this.coords,
+          pov: {
+            heading: 34,
+            pitch: 10,
+          },
+          zoom: 1,
+          addressControl: false,
+          showRoadLabels: false,
+          fullscreenControl: false,
+        }
         );
-      map.setStreetView(panorama);
-      this.checkCoords()
+      this.checkCoordDistance()
     },
     checkCoordDistance(){
       // check coordinates of user selection on map, and compare to original coords
