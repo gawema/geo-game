@@ -1,14 +1,24 @@
 <template>
-  <div id="map" class="minimap-container"></div>
+<div class="minimap-container">
+      <MiniMapFunctions />
+  <div id="map" class="minimap-container">  
+  </div>
+
+</div>
   <div id="pano"></div>
 </template>
 
 <script>
 // import google from "googleapis";
 import locations from "./../assets/locations";
+import MiniMapFunctions from './MiniMapFunctions.vue'
 
 export default {
   name: "StreetView",
+  components: {
+
+    MiniMapFunctions
+  },
   data() {
     return {
       //   googleApiKey: process.env.GOOGLE_API_KEY,
@@ -28,8 +38,6 @@ export default {
           cheatElements[0].parentNode.removeChild(cheatElements[0]);
         }
     })
-
-    
   },
   methods: {
     createMap() {
@@ -38,6 +46,9 @@ export default {
         new window.google.maps.Map(document.getElementById("map"), {
         center: new window.google.maps.LatLng(0, 0),
         zoom: 1,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false,
       });
       new window.google.maps.StreetViewPanorama(
         document.getElementById("pano"),
@@ -64,11 +75,10 @@ export default {
 </script>
 <style scoped>
 .minimap-container {
-  height: 400px;
-  width: 400px;
+  height: 25em;
+  width: 25em;
   position: absolute;
   bottom: 0;
-  background-color: RED;
   right: 0;
   z-index: 1;
   margin-right: 75px;

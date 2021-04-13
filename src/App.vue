@@ -4,7 +4,6 @@
 
 <script>
 import StreetView from './components/StreetView.vue'
-
 export default {
   name: 'App',
   components: {
