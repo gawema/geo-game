@@ -1,6 +1,7 @@
 <template>
   <div id="map" class="minimap-container"></div>
   <div id="pano"></div>
+  <button>hi</button>
 </template>
 
 <script>
@@ -13,6 +14,9 @@ export default {
     return {
       //   googleApiKey: process.env.GOOGLE_API_KEY,
       randCoord: locations[Math.floor(Math.random() * locations.length)],
+      map: null,
+      guessCoords: null,
+      currentPin: null,
     };
   },
   mounted() {
@@ -35,10 +39,11 @@ export default {
     createMap() {
       // initialize a location in streetview
 
-        new window.google.maps.Map(document.getElementById("map"), {
+      this.map = new window.google.maps.Map(document.getElementById("map"), {
         center: new window.google.maps.LatLng(0, 0),
         zoom: 1,
       });
+      
       new window.google.maps.StreetViewPanorama(
         document.getElementById("pano"),
         {
@@ -52,23 +57,49 @@ export default {
           showRoadLabels: false,
           fullscreenControl: false,
         }
-        );
-      this.checkCoordDistance()
+      );
+
+      this.map.addListener("click", (mapsMouseEvent) => {
+        this.guessCoords = mapsMouseEvent.latLng.toJSON();
+        this.placeMarker(this.guessCoords);
+          console.log(this.checkCoordDistance())
+      });
     },
-    checkCoordDistance(){
-      // check coordinates of user selection on map, and compare to original coords
-         console.log(this.coords)
+    checkCoordDistance() {
+        const R = 6371e3; // metres
+        const φ1 = this.coords.lat * Math.PI / 180; // φ, λ in radians
+        const φ2 = this.guessCoords.lat * Math.PI / 180;
+        const Δφ = (this.guessCoords.lat - this.coords.lat) * Math.PI / 180;
+        const Δλ = (this.guessCoords.lng - this.coords.lng) * Math.PI / 180;
+
+        const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const d = R * c; // in metres
+        return d
     },
+    placeMarker(coords) {
+      if (this.currentPin != null) {
+        this.currentPin.setMap(null);
+      }
+      this.currentPin = new window.google.maps.Marker({
+        position: new window.google.maps.LatLng(coords.lat, coords.lng),
+        map: this.map,
+      });
+      this.currentPin.setMap(this.map);
+    }
+
   },
 };
 </script>
 <style scoped>
 .minimap-container {
-  height: 400px;
-  width: 400px;
+  height: 30%;
+  width: 40%;
   position: absolute;
-  bottom: 0;
-  background-color: RED;
+  bottom: 0;  
   right: 0;
   z-index: 1;
   margin-right: 75px;
