@@ -7,14 +7,13 @@ import StreetView from './components/StreetView.vue'
 export default {
   name: 'App',
   components: {
-
-    StreetView
-  }
-}
+    StreetView,
+  },
+};
 </script>
 
 <style>
-  body {
-    margin: 0px;
-  }
+body {
+  margin: 0px;
+}
 </style>
